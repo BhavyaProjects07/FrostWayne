@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export const syncUserCreation = inngest.createFunction(
   { id: "sync-user-create" },
-  { event: "user.created" }, // ✅ FIXED
+  { event: "clerk/user.created" }, // ✅ FIXED
   async ({ event }) => {
     const { data } = event;
 
@@ -20,7 +20,7 @@ export const syncUserCreation = inngest.createFunction(
 
 export const syncUserUpdation = inngest.createFunction(
   { id: "sync-user-update" },
-  { event: "user.updated" }, // ✅ FIXED
+  { event: "clerk/user.updated" }, // ✅ FIXED
   async ({ event }) => {
     const { data } = event;
 
@@ -37,7 +37,7 @@ export const syncUserUpdation = inngest.createFunction(
 
 export const syncUserDeletion = inngest.createFunction(
   { id: "sync-user-delete" },
-  { event: "user.deleted" }, // ✅ FIXED
+  { event: "clerk/user.deleted" }, // ✅ FIXED
   async ({ event }) => {
     await prisma.user.delete({
       where: { id: event.data.id },
