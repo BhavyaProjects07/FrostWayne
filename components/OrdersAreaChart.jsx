@@ -1,33 +1,60 @@
-'use client'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+"use client"
 
-export default function OrdersAreaChart({ allOrders }) {
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts"
 
-    // Group orders by date
-    const ordersPerDay = allOrders.reduce((acc, order) => {
-        const date = new Date(order.createdAt).toISOString().split('T')[0] // format: YYYY-MM-DD
-        acc[date] = (acc[date] || 0) + 1
-        return acc
-    }, {})
+const OrdersAreaChart = ({ allOrders = [] }) => {
+  // Ensure we always work with an array
+  const safeOrders = Array.isArray(allOrders) ? allOrders : []
 
-    // Convert to array for Recharts
-    const chartData = Object.entries(ordersPerDay).map(([date, count]) => ({
-        date,
-        orders: count
-    }))
+  // Group orders by date
+  const ordersPerDay = safeOrders.reduce((acc, order) => {
+    if (!order?.createdAt) return acc
 
+    const date = new Date(order.createdAt)
+      .toISOString()
+      .split("T")[0] // YYYY-MM-DD
+
+    acc[date] = (acc[date] || 0) + 1
+    return acc
+  }, {})
+
+  // Convert object → array for Recharts
+  const chartData = Object.keys(ordersPerDay).map((date) => ({
+    date,
+    orders: ordersPerDay[date],
+  }))
+
+  // Prevent rendering empty charts
+  if (!chartData.length) {
     return (
-        <div className="w-full max-w-4xl h-[300px] text-xs">
-            <h3 className="text-lg font-medium text-slate-800 mb-4 pt-2 text-right"> <span className='text-slate-500'>Orders /</span> Day</h3>
-            <ResponsiveContainer width="100%" height="100%"> 
-                <AreaChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis allowDecimals={false} label={{ value: 'Orders', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="orders" stroke="#4f46e5" fill="#8884d8" strokeWidth={2} />
-                </AreaChart>
-            </ResponsiveContainer>
-        </div>
+      <div className="w-full h-[300px] flex items-center justify-center text-slate-400">
+        No orders data available
+      </div>
     )
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <AreaChart data={chartData}>
+        <XAxis dataKey="date" />
+        <YAxis allowDecimals={false} />
+        <Tooltip />
+        <Area
+          type="monotone"
+          dataKey="orders"
+          stroke="#6b5d52"
+          fill="#cbbfb4"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
 }
+
+export default OrdersAreaChart
