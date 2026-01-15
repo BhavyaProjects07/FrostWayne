@@ -6,8 +6,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
     try {
-        const { UserId } = getAuth(request);
-        const storeId = await authSeller(UserId);
+        const { userId } = getAuth(request);
+        const storeId = await authSeller(userId);
 
         // Get all orders for seller
 
@@ -23,7 +23,7 @@ export async function GET(request) {
 
         const ratings = await prisma.rating.findMany({
             where: { productId: { in: products.map((product) => product.id) } },
-            include:{user:true, products:true}
+            include:{user:true, product:true}
         })
 
         const dashboardData = {

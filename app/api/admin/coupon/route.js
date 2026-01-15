@@ -54,6 +54,7 @@ export async function DELETE(request) {
         await prisma.coupon.delete({
             where: { code }
         })
+        return NextResponse.json({ message: "Coupon deleted successfully" }, { status: 200 })
     }
     catch (error) {
         console.error(error)

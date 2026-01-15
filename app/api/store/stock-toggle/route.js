@@ -8,14 +8,14 @@ import { Prisma } from "@prisma/client"
 
 export async function POST(request) {
     try {
-        const { userID } = getAuth(request)
+        const { userId } = getAuth(request)
         const { productId } = await request.json()
         
         if (!productId) {
             return NextResponse.json({ error: "Missing Product details" }, { status: 400 });
         }
 
-        const storeId = await authSeller(userID)
+        const storeId = await authSeller(userId)
 
 
         if (!storeId) {

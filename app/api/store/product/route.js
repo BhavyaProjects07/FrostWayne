@@ -1,11 +1,13 @@
 // add a new product to the store
+import  imagekit  from "@/configs/imageKit"
 import authSeller from "@/middlewares/authSeller"
 import {getAuth} from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
+import prisma from "@/lib/prisma"
 export async function POST(request) { 
     try {
-        const { userID } = getAuth(request)
-        const storeId = await authSeller(userID)
+        const { userId } = getAuth(request)
+        const storeId = await authSeller(userId)
 
         if (!storeId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
@@ -21,7 +23,7 @@ export async function POST(request) {
         const price = Number(formData.get("price"))
         const images = formData.getAll("images")
         const category = formData.get("category")
-        const mrp = Number(formData.getAll("mrp"))
+        const mrp = Number(formData.get("mrp"))
 
 
         if(!name || !description || !price || images.length === 0 || !category || !mrp) {
@@ -45,7 +47,7 @@ export async function POST(request) {
                         quality:"auto"
                     },
                     {
-                        formar : "webp"
+                        format : "webp"
                     },
                     {
                         width : "800"
@@ -63,7 +65,7 @@ export async function POST(request) {
                 price,
                 images: imagesUrl,
                 category,
-                storeId
+                storeId,
             }
         })
         return NextResponse.json({ message: "Product added successfully" }, { status: 201 })
@@ -79,8 +81,8 @@ export async function POST(request) {
 
 export async function GET(request) {
     try {
-        const { userID } = getAuth(request)
-        const storeId = await authSeller(userID)
+        const { userId } = getAuth(request)
+        const storeId = await authSeller(userId)
 
         if (!storeId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
