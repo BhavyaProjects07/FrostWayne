@@ -7,6 +7,7 @@ import { productDummyData } from "@/assets/assets"
 import { useAuth, useUser } from "@clerk/nextjs"
 import axios from "axios"
 
+
 export default function StoreManageProducts() {
   const { getToken } = useAuth()
   const {user} = useUser()
