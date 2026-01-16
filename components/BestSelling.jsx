@@ -15,7 +15,7 @@ const BestSelling = () => {
                     className="text-[#6b4a2b]/80 tracking-wide text-3xl font-semibold"
                     style={{ fontFamily: 'Times New Roman", Times, Georgia, serif' }}
                     >
-                    Latest Products
+                    Best Selling
                     </span>
 
                 } description={`Showing ${products.length < displayQuantity ? products.length : displayQuantity} of ${products.length} products`} href='/shop' />

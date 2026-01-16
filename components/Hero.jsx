@@ -1,200 +1,157 @@
-"use client"
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+'use client';
+import React, { useState, useEffect } from 'react';
+import { SLIDES } from '../constants.js';
 
-const Hero = () => {
-  const [currentBgIndex, setCurrentBgIndex] = useState(0)
-
-  const luxuryBgImages = [
-    "https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=2000&auto=format&fit=crop", // Luxury yacht
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop", // Penthouse view
-    "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=2000&auto=format&fit=crop", // Private jet
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1400&auto=format&fit=crop", // Luxury interior
-    "https://plus.unsplash.com/premium_photo-1664202526828-6f18286508d2?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Luxury lifestyle
-  ]
+export const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBgIndex((prev) => (prev + 1) % luxuryBgImages.length)
-    }, 5000) // Change every 5 seconds
+    const timer = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [currentSlide, isAnimating]);
 
-    return () => clearInterval(interval)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  }
-
-  const scaleVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 1, ease: "easeOut" },
-    },
-  }
-
-  const slideUpVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  }
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+    setTimeout(() => setIsAnimating(false), 1500);
+  };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center overflow-hidden pt-20">
-      <div className="absolute inset-0 z-0">
-        {luxuryBgImages.map((image, index) => (
-          <motion.div
-            key={index}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: index === currentBgIndex ? 1 : 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          >
-            <img
-              src={image || "/placeholder.svg"}
-              alt={`Luxury background ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        ))}
-
-        {/* LEFT GRADIENT OVERLAY */}
+    <section className="relative h-screen w-full overflow-hidden bg-[#1A1614] flex flex-col justify-center">
+      {/* Background Cinematic Engine */}
+      {SLIDES.map((slide, index) => (
         <div
-          className="absolute inset-0 bg-gradient-to-r 
-        from-[rgb(253,251,247)]/95
-    via-[rgba(255, 255, 255, 0.31)]/70
-    to-transparent
+          key={slide.id}
+          className={`absolute inset-0 transition-all duration-[2500ms] ease-in-out transform ${
+            index === currentSlide ? 'opacity-25 scale-105 z-10' : 'opacity-0 scale-100 z-0'
+          }`}
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(26,22,20,0.9), rgba(26,22,20,0.1), rgba(26,22,20,0.9)), url(${slide.url})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+      ))}
 
-"
-        ></div>
-      </div>``
+      {/* Decorative Texture Layer */}
+      <div className="absolute inset-0 z-20 pointer-events-none mix-blend-soft-light opacity-15 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-b from-[#1A1614] via-transparent to-[#1A1614]"></div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-        {/* Left Content Side */}
-        <motion.div
-          className="lg:col-span-5 z-10 space-y-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div className="space-y-4" variants={itemVariants}>
-            <h2 className="text-[10px] tracking-[0.5em] uppercase text-[#bfa06b] font-bold">New Season Arrivals</h2>
-            <h1 className="font-serif text-7xl md:text-8xl lg:text-9xl text-[#3d2b1f] leading-none tracking-tighter">
-              Frost &<br />
-              <span className="italic font-light text-[#8b5e3c] block mt-2">Wayne</span>
-            </h1>
-          </motion.div>
-
-          <motion.p
-            className="text-sm md:text-base max-w-sm text-[#3d2b1f]/70 font-light leading-relaxed"
-            variants={itemVariants}
-          >
-            Experience the intersection of architectural precision and organic comfort. Our Spring collection defines
-            the modern silhouette with unparalleled grace.
-          </motion.p>
-
-          <motion.div className="flex items-center gap-10 pt-4" variants={itemVariants}>
-            <button className="px-10 py-4 bg-[#3d2b1f] hover:bg-[#1a120b] text-[#fdfbf7] font-bold text-[10px] tracking-[0.3em] uppercase transition-all duration-300 shadow-lg hover:translate-y-[-2px]">
-              Explore Collection
-            </button>
-            <button className="group flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase font-bold text-[#3d2b1f] hover:text-[#bfa06b] transition-colors">
-              View Film
-              <span className="w-12 h-px bg-[#3d2b1f]/30 group-hover:bg-[#bfa06b] transition-all duration-500 group-hover:w-16"></span>
-            </button>
-          </motion.div>
-        </motion.div>
-
-        {/* Right Image Composition Side */}
-        <div className="lg:col-span-7 relative h-[600px] md:h-[800px] flex items-center justify-center">
-          {/* Main Tall Image */}
-          <motion.div
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-4/5 h-[85%] overflow-hidden shadow-2xl border-[2.8mm] border-white"
-            variants={scaleVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop"
-              alt="Main Collection Model"
-              className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000 hover:scale-105"
-            />
-          </motion.div>
-
-          {/* Overlapping Secondary Card */}
-          <motion.div
-            className="absolute left-0 bottom-12 md:bottom-24 w-64 md:w-80 bg-white p-3 shadow-2xl z-20"
-            variants={slideUpVariants}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="relative aspect-square overflow-hidden mb-4">
-              {/* Circular Cutout Effect */}
-              <motion.div
-                className="absolute inset-0 rounded-full overflow-hidden border-8 border-white"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=1000&auto=format&fit=crop"
-                  alt="Menswear Edit"
-                  className="w-full h-full object-cover transition-transform duration-[3s] hover:scale-110"
-                />
-              </motion.div>
-            </div>
-            <div className="flex justify-between items-center px-2 py-1">
-              <span className="text-[9px] tracking-[0.4em] uppercase font-bold text-[#bfa06b]">Menswear Edit</span>
-              <svg
-                className="w-4 h-4 text-[#3d2b1f] animate-pulse"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </motion.div>
-
-          {/* Background Decorative Elements */}
-          <motion.div
-            className="absolute -right-8 top-12 w-24 h-px bg-[#bfa06b] rotate-90 opacity-40"
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 0.4, scaleX: 1 }}
-            transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
-          />
-          <motion.div
-            className="text-[10px] tracking-[0.8em] uppercase text-[#3d2b1f]/20 vertical-rl h-40 absolute top-0 right-12"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-          >
-            Heritage • 2026
-          </motion.div>
+      {/* Side Density Elements */}
+      <div className="absolute left-12 top-1/2 -translate-y-1/2 z-30 hidden xl:flex flex-col space-y-40">
+        <div className="rotate-[-90deg] origin-left text-[9px] tracking-[1.2em] text-[#C5A059]/30 font-light whitespace-nowrap uppercase">
+          48.8566° N, 2.3522° E — PARIS
+        </div>
+        <div className="rotate-[-90deg] origin-left text-[9px] tracking-[1.2em] text-[#C5A059]/30 font-light whitespace-nowrap uppercase">
+          ARCHIVE 00{currentSlide + 1} // FW25
         </div>
       </div>
-    </div>
-  )
-}
 
-export default Hero
+      {/* Main Narrative Content */}
+      <div className="relative z-30 container mx-auto px-6 md:px-16 flex flex-col items-center text-center">
+        {/* Animated Subtitle */}
+        <div className="flex items-center space-x-6 mb-10 overflow-hidden">
+          <span className="w-12 h-[1px] bg-[#C5A059]/40"></span>
+          <p className={`text-[#C5A059] text-[10px] md:text-[11px] uppercase tracking-[1em] transition-all duration-1000 transform ${
+            isAnimating ? 'translate-y-6 opacity-0' : 'translate-y-0 opacity-100'
+          }`}>
+            {SLIDES[currentSlide].subtitle}
+          </p>
+          <span className="w-12 h-[1px] bg-[#C5A059]/40"></span>
+        </div>
+
+        {/* Cinematic Title Reveal */}
+        <div className="relative mb-14 h-[5rem] md:h-[8rem] lg:h-[12rem] flex items-center">
+          <h1 className="font-serif text-6xl md:text-9xl lg:text-[11rem] tracking-tighter leading-none text-[#E8DED1] flex flex-wrap justify-center overflow-hidden">
+            {SLIDES[currentSlide].title.split("").map((char, i) => (
+              <span 
+                key={i} 
+                className={`inline-block transition-all duration-[1200ms] ease-out transform ${
+                  isAnimating ? 'translate-y-full' : 'translate-y-0'
+                }`}
+                style={{ transitionDelay: `${i * 35}ms` }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </h1>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#C5A059]/5 blur-[120px] -z-10 rounded-full"></div>
+        </div>
+
+        {/* God-level Buttons */}
+        <div className="flex flex-col sm:flex-row items-center space-y-10 sm:space-y-0 sm:space-x-16">
+          <button className="group relative px-14 py-6 border border-[#C5A059]/20 text-[#E8DED1] text-[10px] uppercase tracking-[0.5em] font-medium overflow-hidden transition-all duration-700 hover:border-[#C5A059]">
+            <span className="relative z-10">Experience the Maison</span>
+            <div className="absolute inset-0 bg-[#C5A059] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-[800ms] ease-out"></div>
+            <div className="absolute inset-0 group-hover:bg-[#1A1614] mix-blend-difference transition-all duration-700"></div>
+          </button>
+          
+          <button className="group flex flex-col items-center space-y-4">
+             <div className="flex items-center space-x-4 text-[#D4C4B5] group-hover:text-white transition-all">
+                <span className="text-[10px] uppercase tracking-[0.4em]">Lookbook</span>
+                <div className="w-10 h-10 rounded-full border border-[#C5A059]/20 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:border-[#C5A059] transition-all duration-700">
+                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#C5A059] group-hover:text-[#1A1614] transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+             </div>
+             <div className="w-0 h-[1px] bg-[#C5A059] group-hover:w-full transition-all duration-700"></div>
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Interface HUD */}
+      <div className="absolute bottom-16 w-full px-12 md:px-24 z-30 flex justify-between items-end">
+        <div className="flex flex-col">
+            <div className="flex items-center space-x-3 mb-6">
+               <span className="text-[8px] uppercase tracking-[0.4em] text-[#C5A059]/60">Navigation</span>
+               <div className="w-8 h-[1px] bg-[#C5A059]/20"></div>
+            </div>
+            <div className="flex items-center space-x-8">
+                {SLIDES.map((_, idx) => (
+                    <button 
+                        key={idx}
+                        onClick={() => !isAnimating && setCurrentSlide(idx)}
+                        className="group relative h-16 flex flex-col justify-end overflow-hidden"
+                    >
+                        <span className={`text-[10px] mb-3 transition-all duration-500 font-serif ${idx === currentSlide ? 'text-[#C5A059]' : 'text-[#D4C4B5]/30 group-hover:text-[#D4C4B5]'}`}>
+                            0{idx + 1}
+                        </span>
+                        <div className={`w-[1px] transition-all duration-1000 ${idx === currentSlide ? 'h-10 bg-[#C5A059]' : 'h-4 bg-[#C5A059]/10 group-hover:h-8'}`}></div>
+                    </button>
+                ))}
+            </div>
+        </div>
+
+        {/* Scroll Signature */}
+        <div className="hidden lg:flex flex-col items-end group cursor-pointer">
+             <div className="flex items-center space-x-6 mb-4">
+                <span className="text-[9px] tracking-[0.5em] text-[#D4C4B5]/40 group-hover:text-[#C5A059] transition-all">SWIPE TO UNFOLD</span>
+                <div className="w-16 h-[1px] bg-[#C5A059]/20 group-hover:w-24 transition-all"></div>
+             </div>
+             <div className="w-[1px] h-16 bg-[#C5A059]/10 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#C5A059] to-transparent animate-hud-line"></div>
+             </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes hud-line {
+          0% { transform: translateY(-100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(100%); opacity: 0; }
+        }
+        .animate-hud-line {
+          animation: hud-line 3s infinite ease-in-out;
+        }
+      `}</style>
+    </section>
+  );
+};
+
+
+export default Hero;
