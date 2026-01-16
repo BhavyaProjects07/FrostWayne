@@ -1,18 +1,18 @@
-import { useAuth } from "@clerk/nextjs";
+// import { useAuth } from "@clerk/nextjs";
 
 
 
-export async function GET(request) {
-    try {
-        const { userId, has } = useAuth(request);
-        const { code } = await request.json();
+// export async function GET(request) {
+//     try {
+//         const { userId, has } = useAuth(request);
+//         const { code } = await request.json();
         
-        const coupon = await prisma.coupon.findUnique({
-            where:
-        })
+//         const coupon = await prisma.coupon.findUnique({
+//             where:
+//         })
 
             
-    } catch (error) {
+//     } catch (error) {
         
-    }
-}
+//     }
+// }
