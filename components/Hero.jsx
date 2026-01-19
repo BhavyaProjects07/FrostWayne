@@ -30,7 +30,7 @@ export const Hero = () => {
             index === currentSlide ? 'opacity-25 scale-105 z-10' : 'opacity-0 scale-100 z-0'
           }`}
           style={{
-            backgroundImage: `linear-gradient(to right, rgba(26,22,20,0.9), rgba(26,22,20,0.1), rgba(26,22,20,0.9)), url(${slide.url})`,
+            backgroundImage: `linear-gradient(to right, rgba(95, 84, 80, 0.59), rgba(59, 51, 46, 0.17), rgba(84, 70, 63, 0.49)), url(${slide.url})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

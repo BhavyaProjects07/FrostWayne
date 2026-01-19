@@ -24,7 +24,7 @@ export async function GET(request) {
                 username
             },
             include:{
-                product :{include : {rating:true}}
+                Product :{include : {rating:true}}
             }
         })
 

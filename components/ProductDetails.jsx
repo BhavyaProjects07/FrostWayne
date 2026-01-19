@@ -31,20 +31,20 @@ const ProductDetails = ({ product }) => {
             <div className="flex max-sm:flex-col-reverse gap-3">
                 <div className="flex sm:flex-col gap-3">
                     {product.images.map((image, index) => (
-                        <div key={index} onClick={() => setMainImage(product.images[index])} className="bg-slate-100 flex items-center justify-center size-26 rounded-lg group cursor-pointer">
+                        <div key={index} onClick={() => setMainImage(product.images[index])} className="bg-[#F7F3F0] flex items-center justify-center size-26 rounded-lg group cursor-pointer">
                             <Image src={image} className="group-hover:scale-103 group-active:scale-95 transition" alt="" width={45} height={45} />
                         </div>
                     ))}
                 </div>
-                <div className="flex justify-center items-center h-100 sm:size-113 bg-slate-100 rounded-lg ">
+                <div className="flex justify-center items-center h-100 sm:size-113 bg-[#F7F3F0] rounded-lg ">
                     <Image src={mainImage} alt="" width={250} height={250} />
                 </div>
             </div>
             <div className="flex-1">
-                <h1 className="text-3xl font-semibold text-slate-800">{product.name}</h1>
+                <h1 className="text-5xl font-semibold italic text-[#C5A059]/80 block ">{product.name}</h1>
                 <div className='flex items-center mt-2'>
                     {Array(5).fill('').map((_, index) => (
-                        <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={averageRating >= index + 1 ? "#00C950" : "#D1D5DB"} />
+                        <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={averageRating >= index + 1 ? "#824938" : "#c0b3ab"} />
                     ))}
                     <p className="text-sm ml-3 text-slate-500">{product.rating.length} Reviews</p>
                 </div>
@@ -60,12 +60,12 @@ const ProductDetails = ({ product }) => {
                     {
                         cart[productId] && (
                             <div className="flex flex-col gap-3">
-                                <p className="text-lg text-slate-800 font-semibold">Quantity</p>
+                                <p className="text-lg text-[#c5a059] font-semibold">Quantity</p>
                                 <Counter productId={productId} />
                             </div>
                         )
                     }
-                    <button onClick={() => !cart[productId] ? addToCartHandler() : router.push('/cart')} className="bg-slate-800 text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition">
+                    <button onClick={() => !cart[productId] ? addToCartHandler() : router.push('/cart')} className="bg-[#654321] text-white px-10 py-3 text-sm font-medium rounded hover:bg-slate-900 active:scale-95 transition">
                         {!cart[productId] ? 'Add to Cart' : 'View Cart'}
                     </button>
                 </div>

@@ -13,6 +13,7 @@ export default function StoreOrders() {
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
+
   const {getToken} = useAuth()
 
   const fetchOrders = async () => {
@@ -97,16 +98,17 @@ export default function StoreOrders() {
                 >
                   <td className="pl-6 text-[#6b5d52]">{index + 1}</td>
                   <td className="px-4 py-3">{order.user?.name}</td>
-                  <td className="px-4 py-3 font-medium text-[#6b5d52]">${order.total}</td>
+                  <td className="px-4 py-3 font-medium text-[#6b5d52]">₹{order.total}</td>
                   <td className="px-4 py-3">{order.paymentMethod}</td>
                   <td className="px-4 py-3">
-                    {order.isCouponUsed ? (
-                      <span className="bg-[#ede6dd] text-[#6b5d52] text-xs px-2 py-1 rounded-full">
-                        {order.coupon?.code}
-                      </span>
-                    ) : (
-                      "—"
-                    )}
+                    {order.coupon?.code ? (
+  <span className="bg-[#ede6dd] text-[#6b5d52] text-xs px-2 py-1 rounded-full">
+    {order.coupon.code}
+  </span>
+) : (
+  "—"
+)}
+
                   </td>
                   <td
                     className="px-4 py-3"
@@ -195,12 +197,12 @@ export default function StoreOrders() {
               <p>
                 <span className="text-[#6b5d52]">Paid:</span> {selectedOrder.isPaid ? "Yes" : "No"}
               </p>
-              {selectedOrder.isCouponUsed && (
-                <p>
-                  <span className="text-[#6b5d52]">Coupon:</span> {selectedOrder.coupon.code} (
-                  {selectedOrder.coupon.discount}% off)
-                </p>
-              )}
+              {selectedOrder.coupon && (
+  <p>
+    Coupon: {selectedOrder.coupon.code} ({selectedOrder.coupon.discount}% off)
+  </p>
+)}
+
               <p>
                 <span className="text-[#6b5d52]">Status:</span> {selectedOrder.status}
               </p>

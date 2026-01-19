@@ -13,12 +13,40 @@ const LatestProducts = () => {
         <div className='px-6 my-30 max-w-6xl mx-auto'>
             <Title
                 title={
-                    <span
-                    className="text-[#6b4a2b]/80 tracking-wide text-3xl font-semibold"
-                    style={{ fontFamily: 'Times New Roman", Times, Georgia, serif' }}
-                    >
-                    Latest Products
-                    </span>
+                    <h2
+  className="
+    font-serif
+    text-[1.9rem]        /* small mobile */
+    sm:text-[2.3rem]
+    md:text-5xl
+    lg:text-6xl
+    text-[#1A1614]
+    tracking-tight
+    leading-[1.15]
+    transition-all
+    duration-[1500ms]
+    opacity-100
+    translate-y-0
+  "
+>
+  Latest Pieces
+  <br className="hidden xs:block" />
+  <span
+    className="
+      italic
+      text-[#C5A059]/80
+      block
+      mt-1
+      pl-0
+      sm:pl-4
+      md:pl-8
+    "
+  >
+    from the Atelier
+  </span>
+                    </h2>
+
+                    
 
                 }
                 description={`Showing ${products.length < displayQuantity ? products.length : displayQuantity} of ${products.length} products`}

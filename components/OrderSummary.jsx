@@ -4,13 +4,20 @@ import AddressModal from './AddressModal';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { useUser,useAuth } from '@clerk/nextjs';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { fetchCart } from '@/lib/features/cart/cartSlice';
+
+
 
 const OrderSummary = ({ totalPrice, items }) => {
-
+    const { user } = useUser();
+    const {getToken} = useAuth();
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$';
 
     const router = useRouter();
-
+    const dispatch = useDispatch();
     const addressList = useSelector(state => state.address.list);
 
     const [paymentMethod, setPaymentMethod] = useState('COD');
@@ -21,13 +28,71 @@ const OrderSummary = ({ totalPrice, items }) => {
 
     const handleCouponCode = async (event) => {
         event.preventDefault();
+
+        try {
+            if (!user) {
+                return toast('Please login to apply coupon', { type: 'error' });
+            }
+            const token = await getToken();
+            const { data } = await axios.post('/api/coupons', {code: couponCodeInput}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                
+            })
+            setCoupon(data.coupon);
+            toast.success('Coupon applied successfully');
+            
+        } catch (error) {
+            toast.error(error.response?.data?.message );
+        }
         
     }
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
+        try {
+            if (!user) {
+                return toast('Please login to place order', { type: 'error' });
+            }
 
-        router.push('/orders')
+            if (!selectedAddress) {
+                return toast('Please select an address', { type: 'error' });
+            }
+
+            const token = await getToken()
+            const orderData = {
+                addressId: selectedAddress.id,
+                items,
+                
+                paymentMethod,
+            }
+
+            if (coupon) {
+                orderData.couponCode = coupon.code;
+            }
+
+            // create order
+
+            const {data} = await axios.post('/api/orders', orderData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+
+            if (paymentMethod === 'STRIPE') {
+                window.location.href = data.session.url;
+            }
+            else {
+                toast.success('Order placed successfully');
+                router.push('/orders')
+                dispatch(fetchCart({ getToken }))
+            }
+
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || error.message );
+        }
     }
 
     return (

@@ -10,6 +10,8 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import axios from "axios"
 
+
+
 export default function Dashboard() {
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$"
     const {getToken} = useAuth()
