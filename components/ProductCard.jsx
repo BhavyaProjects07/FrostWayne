@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
                     
                 </div>
                 <div className="flex flex-col items-end transform transition-transform duration-700 group-hover:-translate-y-1">
-                    <span className="text-[7px] tracking-[0.4em] text-[#C5A059] uppercase font-bold leading-none mb-1">Origin</span>
+                    
                     <span className="text-[9px] tracking-[0.1em] text-[#1A1614]/50 font-mono uppercase">Milan Atelier</span>
                 </div>
             </div>
