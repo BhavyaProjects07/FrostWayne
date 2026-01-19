@@ -41,7 +41,7 @@ const ProductDetails = ({ product }) => {
                 </div>
             </div>
             <div className="flex-1">
-                <h1 className="text-5xl font-semibold italic text-[#C5A059]/80 block ">{product.name}</h1>
+                <h1 className="text-3xl font-semibold text-[#C5A059]/80 block ">{product.name}</h1>
                 <div className='flex items-center mt-2'>
                     {Array(5).fill('').map((_, index) => (
                         <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={averageRating >= index + 1 ? "#824938" : "#c0b3ab"} />

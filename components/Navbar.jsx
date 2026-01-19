@@ -33,6 +33,7 @@ const Navbar = () => {
     const {user} = useUser()
     const {openSignIn} = useClerk()
     const router = useRouter();
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
 
     const [search, setSearch] = useState('')
     const [isVisible, setIsVisible] = useState(false)
@@ -124,14 +125,18 @@ const Navbar = () => {
                 <div className="mx-6">
                     <div className="flex items-center justify-between max-w-7xl mx-auto py-4 transition-all duration-500">
 
-                        <Link href="/" className="nav-logo relative text-4xl font-semibold text-slate-700 hover:scale-105 transition-transform duration-300">
-                            <Image src={assets.logo || "/placeholder.svg"} alt="Logo" className="w-29" />
+                        <Link
+                        href="/"
+                        className="nav-logo relative text-4xl font-semibold text-slate-700 hover:scale-105 transition-transform duration-300 hidden sm:block"
+                        >
+                        <Image src={assets.logo || "/placeholder.svg"} alt="Logo" className="w-29" />
                         </Link>
+
 
                         {/* Desktop Menu */}
                         <div className="hidden lg:flex items-center space-x-12">
-                            <NavLink href="#" delay={0}>Home</NavLink>
-                            <NavLink href="#" delay={0.1}>Shop</NavLink>
+                            <NavLink href="/" delay={0}>Home</NavLink>
+                            <NavLink href="/shop" delay={0.1}>Shop</NavLink>
                             <NavLink href="#" delay={0.2}>About</NavLink>
                             <NavLink href="#" delay={0.3}>Contact</NavLink>
 
@@ -177,6 +182,8 @@ const Navbar = () => {
                                     >
                                         <span className="relative z-10">Login</span>
                                     </button>
+
+                                    
                                         
                                 ) : (
                                     <div style={{
@@ -196,31 +203,109 @@ const Navbar = () => {
                         </div>
 
                         {/* Mobile User Button  */}
-                        <div className="sm:hidden" style={{
+                        {/* Mobile Nav */}
+                        <div
+                        className="sm:hidden flex items-center justify-between w-full"
+                        style={{
                             animation: `fadeInUp 0.6s ease-out forwards`,
                             opacity: isVisible ? 1 : 0,
-                        }}>
+                        }}
+                        >
+                            
+                        {/* Mobile Logo (LEFT) */}
+                        <Link href="/" className="flex items-center">
+                            <Image
+                            src={assets.FrostWayneLogo}
+                            alt="FrostWayne"
+                            width={38}
+                            height={38}
+                            priority
+                            />
+                        </Link>
+
+                        {/* Mobile Actions (RIGHT) */}
+                        <div className="flex items-center gap-3">
+                            {/* Search Icon */}
+                            <button
+                            onClick={() => setMobileSearchOpen((prev) => !prev)}
+                            className="p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            >
+                            <Search size={16} />
+                            </button>
+
+                            {/* Shop Icon */}
+                            <button
+                            onClick={() => router.push('/shop')}
+                            className="p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            >
+                            <PackageIcon size={16} />
+                            </button>
+
+                            {/* Cart Icon */}
+                            <button
+                            onClick={() => router.push('/cart')}
+                            className="relative p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            >
+                            <ShoppingCart size={16} />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 text-[8px] text-white bg-[#C4A484] size-4 rounded-full flex items-center justify-center">
+                                {cartCount}
+                                </span>
+                            )}
+                            </button>
+
+                            {/* Auth */}
                             {
-                                user ? (
-                                    <div>
-                                        <UserButton>
-                                            <UserButton.MenuItems>
-                                                <UserButton.Action labelIcon={<ShoppingCart size={16}/>} label="cart" onClick={()=> router.push('/cart')} />    
-                                            </UserButton.MenuItems>     
-                                        </UserButton>
-                                    </div>
-                                ) : (
-                                    <button 
-                                        onClick={openSignIn}
-                                        className="nav-button px-7 py-1.5 bg-[#C4A484] text-sm text-white rounded-full relative transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
-                                    >
-                                        <span className="relative z-10">Login</span>
-                                    </button>
-                                )
+                            user ? (
+                                <UserButton>
+                                <UserButton.MenuItems>
+                                    <UserButton.Action
+                                    labelIcon={<ShoppingCart size={16} />}
+                                    label="Cart"
+                                    onClick={() => router.push('/cart')}
+                                    />
+                                    <UserButton.Action
+                                    labelIcon={<PackageIcon size={16} />}
+                                    label="My Orders"
+                                    onClick={() => router.push('/orders')}
+                                    />
+                                </UserButton.MenuItems>
+                                </UserButton>
+                            ) : (
+                                <button
+                                onClick={openSignIn}
+                                className="nav-button px-4 py-1.5 bg-[#C4A484] text-sm text-white rounded-full transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
+                                >
+                                Login
+                                </button>
+                            )
                             }
                         </div>
+                        </div>
+
                     </div>
                 </div>
+
+                            {/* ✅ ADD MOBILE SEARCH INPUT RIGHT HERE */}
+{mobileSearchOpen && (
+  <form
+    onSubmit={handleSearch}
+    className="sm:hidden px-6 pb-3 animate-[fadeInUp_0.4s_ease-out]"
+  >
+    <div className="flex items-center gap-2 bg-[#d8cbc480] px-4 py-3 rounded-full">
+      <Search size={16} className="text-[#4A372880]" />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search products"
+        className="w-full bg-transparent outline-none text-sm placeholder-[#4A372880]"
+        autoFocus
+        required
+      />
+    </div>
+  </form>
+)}
                 <hr className="border-gray-300 transition-all duration-500" />
             </nav>
         </>
