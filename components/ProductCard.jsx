@@ -4,6 +4,7 @@ import { StarIcon } from 'lucide-react'
 import React from 'react'
 import { Plus, ArrowUpRight } from 'lucide-react'
 
+
 /**
  * Frost Wayne | Luxury Product Card (Atelier Edition)
  * A refined, high-fashion gallery component.
@@ -26,7 +27,7 @@ const ProductCard = ({ product }) => {
             <div className="flex justify-between items-end mb-3 px-1 overflow-hidden">
                 <div className="flex flex-col transform transition-transform duration-700 group-hover:-translate-y-1">
                     <span className="text-[7px] tracking-[0.4em] text-[#C5A059] uppercase font-bold leading-none mb-1">Archive Ref.</span>
-                    <span className="text-[9px] tracking-[0.1em] text-[#1A1614]/50 font-mono">FW-25-{String(productId).padStart(3, '0')}</span>
+                    
                 </div>
                 <div className="flex flex-col items-end transform transition-transform duration-700 group-hover:-translate-y-1">
                     <span className="text-[7px] tracking-[0.4em] text-[#C5A059] uppercase font-bold leading-none mb-1">Origin</span>

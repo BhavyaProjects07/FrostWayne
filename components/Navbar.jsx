@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { assets } from "@/assets/assets";
 import Image from "next/image"
 import {useUser , useClerk , UserButton} from "@clerk/nextjs";
-import { PackageIcon } from "lucide-react";
+import { PackageIcon , Store } from "lucide-react";
+
 
 const NavLink = ({ href, children, delay = 0 }) => {
     return (
@@ -238,7 +239,7 @@ const Navbar = () => {
                             onClick={() => router.push('/shop')}
                             className="p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
                             >
-                            <PackageIcon size={16} />
+                            <Store size={16} />
                             </button>
 
                             {/* Cart Icon */}
