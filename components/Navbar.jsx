@@ -6,8 +6,9 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { assets } from "@/assets/assets";
 import Image from "next/image"
-import {useUser , useClerk , UserButton} from "@clerk/nextjs";
-import { PackageIcon , Store } from "lucide-react";
+import {useUser , useClerk , UserButton , useAuth} from "@clerk/nextjs";
+import { PackageIcon, Store } from "lucide-react";
+import axios from "axios";
 
 
 const NavLink = ({ href, children, delay = 0 }) => {
@@ -31,7 +32,14 @@ const NavLink = ({ href, children, delay = 0 }) => {
 
 const Navbar = () => {
 
-    const {user} = useUser()
+    const { getToken } = useAuth()
+
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [isSeller, setIsSeller] = useState(false)
+
+
+    const { user } = useUser()
+    
     const {openSignIn} = useClerk()
     const router = useRouter();
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
@@ -43,6 +51,39 @@ const Navbar = () => {
     useEffect(() => {
         setIsVisible(true)
     }, [])
+
+    useEffect(() => {
+  if (!user) return
+
+  const fetchRoles = async () => {
+    try {
+      const token = await getToken()
+
+      // Admin check
+      try {
+        await axios.get("/api/admin/is-admin", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        setIsAdmin(true)
+      } catch {
+        setIsAdmin(false)
+      }
+
+      // Seller check
+      const sellerRes = await axios.get("/api/store/is-seller", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      setIsSeller(!!sellerRes.data?.isSeller)
+
+    } catch (err) {
+      console.error("Role check failed", err)
+    }
+  }
+
+  fetchRoles()
+}, [user])
+
 
     const handleSearch = (e) => {
         e.preventDefault()
@@ -138,8 +179,8 @@ const Navbar = () => {
                         <div className="hidden lg:flex items-center space-x-12">
                             <NavLink href="/" delay={0}>Home</NavLink>
                             <NavLink href="/shop" delay={0.1}>Shop</NavLink>
-                            <NavLink href="#" delay={0.2}>About</NavLink>
-                            <NavLink href="#" delay={0.3}>Contact</NavLink>
+                            <NavLink href="/about" delay={0.2}>About</NavLink>
+                            
 
                             <form 
                                 onSubmit={handleSearch} 
@@ -193,9 +234,32 @@ const Navbar = () => {
                                     }}>
                                         <UserButton>
                                             <UserButton.MenuItems>
-                                                <UserButton.Action labelIcon={<PackageIcon size={16}/>} label="My Orders" onClick={()=> router.push('/orders')} />    
-                                            </UserButton.MenuItems>     
+
+                                                <UserButton.Action
+                                                labelIcon={<PackageIcon size={16} />}
+                                                label="My Orders"
+                                                onClick={() => router.push("/orders")}
+                                                />
+
+                                                {isSeller && (
+                                                <UserButton.Action
+                                                    labelIcon={<Store size={16} />}
+                                                    label="Store Dashboard"
+                                                    onClick={() => router.push("/store")}
+                                                />
+                                                )}
+
+                                                {isAdmin && (
+                                                <UserButton.Action
+                                                    labelIcon={<PackageIcon size={16} />}
+                                                    label="Admin Panel"
+                                                    onClick={() => router.push("/admin")}
+                                                />
+                                                )}
+
+                                            </UserButton.MenuItems>
                                         </UserButton>
+
                                     </div>      
                                 )
                             }
@@ -216,10 +280,10 @@ const Navbar = () => {
                         {/* Mobile Logo (LEFT) */}
                         <Link href="/" className="flex items-center">
                             <Image
-                            src={assets.FrostWayneLogo}
+                            src={assets.logo}
                             alt="FrostWayne"
-                            width={38}
-                            height={38}
+                            width={70}
+                            height={60}
                             priority
                             />
                         </Link>
@@ -259,19 +323,39 @@ const Navbar = () => {
                             {
                             user ? (
                                 <UserButton>
-                                <UserButton.MenuItems>
-                                    <UserButton.Action
-                                    labelIcon={<ShoppingCart size={16} />}
-                                    label="Cart"
-                                    onClick={() => router.push('/cart')}
-                                    />
-                                    <UserButton.Action
-                                    labelIcon={<PackageIcon size={16} />}
-                                    label="My Orders"
-                                    onClick={() => router.push('/orders')}
-                                    />
-                                </UserButton.MenuItems>
+                                    <UserButton.MenuItems>
+
+                                        <UserButton.Action
+                                        labelIcon={<ShoppingCart size={16} />}
+                                        label="Cart"
+                                        onClick={() => router.push("/cart")}
+                                        />
+
+                                        <UserButton.Action
+                                        labelIcon={<PackageIcon size={16} />}
+                                        label="My Orders"
+                                        onClick={() => router.push("/orders")}
+                                        />
+
+                                        {isSeller && (
+                                        <UserButton.Action
+                                            labelIcon={<Store size={16} />}
+                                            label="Store Dashboard"
+                                            onClick={() => router.push("/store")}
+                                        />
+                                        )}
+
+                                        {isAdmin && (
+                                        <UserButton.Action
+                                            labelIcon={<PackageIcon size={16} />}
+                                            label="Admin Panel"
+                                            onClick={() => router.push("/admin")}
+                                        />
+                                        )}
+
+                                    </UserButton.MenuItems>
                                 </UserButton>
+
                             ) : (
                                 <button
                                 onClick={openSignIn}

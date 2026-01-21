@@ -3,8 +3,9 @@ import { assets } from "@/assets/assets"
 import { useAuth } from "@clerk/nextjs"
 import axios from "axios"
 import Image from "next/image"
-import { useState } from "react"
+import { useState , useEffect } from "react"
 import { toast } from "react-hot-toast"
+import { useSearchParams } from "next/navigation"
 
 export default function StoreAddProduct() {
   const categories = [
@@ -20,6 +21,11 @@ export default function StoreAddProduct() {
     "Others",
   ]
 
+  const searchParams = useSearchParams()
+  const editProductId = searchParams.get("edit")
+  const isEditMode = !!editProductId
+
+
   const [images, setImages] = useState({ 1: null, 2: null, 3: null, 4: null })
   const [productInfo, setProductInfo] = useState({
     name: "",
@@ -29,11 +35,63 @@ export default function StoreAddProduct() {
     category: "",
   })
   const [loading, setLoading] = useState(false)
+  const [aiUsed, setAiUsed] = useState(false)
 
   const {getToken} = useAuth()
 
   const onChangeHandler = (e) => {
     setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
+  }
+
+
+  const handleImageUpload = async (key, file) => {
+    setImages(prev => ({ ...prev, [key]: file }))
+    if (key == "1" && file && !aiUsed) {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onloadend = async () => {
+        const base64String = reader.result.split(",")[1]
+        const mimeType = file.type
+        const token = await getToken()
+
+        try {
+          await toast.promise(
+  axios.post(
+    "/api/store/ai",
+    {
+      base64Image: base64String,
+      mimeType,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  ),
+  {
+    loading: "Analyzing Image with AI...",
+    success: (res) => {
+      const data = res.data
+      if (data.name && data.description) {
+        setProductInfo(prev => ({
+          ...prev,
+          name: data.name,
+          description: data.description,
+        }))
+        setAiUsed(true)
+        return "AI filled product info"
+      }
+      return "AI could not analyze the image"
+    },
+    error: (err) => err?.response?.data?.error || err.message,
+  }
+)
+
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
   }
 
   const onSubmitHandler = async (e) => {
@@ -60,12 +118,22 @@ export default function StoreAddProduct() {
 
       const token = await getToken()
 
-      const {data} = await axios.post("/api/store/product", formData, {
+    //  ADD  LOGIC HERE
+      const endpoint = isEditMode
+        ? `/api/store/product/${editProductId}`
+        : "/api/store/product"
+
+      const method = isEditMode ? "put" : "post"
+
+      // ✅ USE IT HERE
+      const { data } = await axios[method](endpoint, formData, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       })
+
       toast.success(data.message)
+
 
       // reset form
       setProductInfo({
@@ -76,12 +144,51 @@ export default function StoreAddProduct() {
         category: "",
       })
       setImages({ 1: null, 2: null, 3: null, 4: null })
+      router.push("/store/manage-product")
       setLoading(false)
 
     } catch (error) {
       toast.error(error.response?.data?.error || error.message)
     }
   }
+
+  useEffect(() => {
+  if (!isEditMode) return
+
+  const fetchProduct = async () => {
+    try {
+      const token = await getToken()
+      const { data } = await axios.get(
+        `/api/store/product/${editProductId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+
+      const product = data.product
+
+      setProductInfo({
+        name: product.name,
+        description: product.description,
+        mrp: product.mrp,
+        price: product.price,
+        category: product.category,
+      })
+
+      setImages(
+        product.images.reduce((acc, url, i) => {
+          acc[i + 1] = url
+          return acc
+        }, {})
+      )
+    } catch (err) {
+      toast.error("Failed to load product")
+    }
+  }
+
+  fetchProduct()
+}, [editProductId])
+
 
   return (
     <form
@@ -100,14 +207,22 @@ export default function StoreAddProduct() {
               width={300}
               height={300}
               className="h-15 w-auto border border-[#ede6dd] rounded cursor-pointer"
-              src={images[key] ? URL.createObjectURL(images[key]) : assets.upload_area}
+              src={
+                typeof images[key] === "string"
+                  ? images[key]
+                  : images[key]
+                  ? URL.createObjectURL(images[key])
+                  : assets.upload_area
+              }
+
               alt=""
             />
             <input
+              
               type="file"
               accept="image/*"
               id={`images${key}`}
-              onChange={(e) => setImages({ ...images, [key]: e.target.files[0] })}
+              onChange={(e) => handleImageUpload(key , e.target.files[0]) }
               hidden
             />
           </label>
@@ -185,12 +300,10 @@ export default function StoreAddProduct() {
 
       <br />
 
-      <button
-        disabled={loading}
-        className="bg-[#6b5d52] text-white px-6 mt-7 py-2 hover:bg-[#5c4433] rounded transition"
-      >
-        Add Product
+      <button disabled={loading} className="bg-[#6b5d52] text-white px-6 mt-7 py-2">
+        {isEditMode ? "Update Product" : "Add Product"}
       </button>
+
     </form>
   )
 }

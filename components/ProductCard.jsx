@@ -11,7 +11,7 @@ import { Plus, ArrowUpRight } from 'lucide-react'
  */
 const ProductCard = ({ product }) => {
     // Default values if product prop is partial
-    const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
+    const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL
     const productName = product?.name || "Untitled Piece"
     const productPrice = product?.price || "0.00"
     const productImage = product?.images?.[0] || "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&q=80&w=800"
@@ -75,15 +75,19 @@ const ProductCard = ({ product }) => {
                         </div>
                         
                         {/* Product Title */}
-                        <h3 className='font-serif text-xl md:text-2xl text-[#1A1614] leading-tight tracking-tight transition-colors duration-700 group-hover:text-[#856358]'>
+                        <h3 className='font-serif text-base text-[#1A1614]/80 leading-tight tracking-tight transition-colors duration-700 group-hover:text-[#856358]'>
                             {productName}
                         </h3>
+
 
                         <div className='flex'>
                         {Array(5).fill('').map((_, index) => (
                             <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={rating >= index + 1 ? "#856358ff" : "#c9bbae"} />
                         ))}
-                    </div>
+                            
+                        
+                        </div>
+                        
                         
 
                         
@@ -94,7 +98,7 @@ const ProductCard = ({ product }) => {
                     {/* Price with slide animation */}
                     <div className="flex flex-col items-end h-10 overflow-hidden">
                         <div className="transition-transform duration-700 group-hover:-translate-y-full flex flex-col items-end">
-                            <span className="text-[12px] font-medium tracking-wider text-[#1A1614] h-10 flex items-center">
+                            <span className="text-[13px] font-medium tracking-wider text-[#1A1614] h-10 flex items-center">
                                 {currency}{productPrice}
                             </span>
                             <span className="text-[9px] tracking-[0.3em] uppercase text-[#C5A059] font-bold h-10 flex items-center">
@@ -103,7 +107,7 @@ const ProductCard = ({ product }) => {
                         </div>
                     </div>
                 </div>
-
+                    
                 {/* Decorative Bottom Bar */}
                 <div className="mt-4 flex items-center justify-between">
                     <div className="h-[1px] flex-1 bg-[#C5A059]/10">

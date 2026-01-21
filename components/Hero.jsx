@@ -44,7 +44,7 @@ export const Hero = () => {
       {/* Side Density Elements */}
       <div className="absolute left-12 top-1/2 -translate-y-1/2 z-30 hidden xl:flex flex-col space-y-40">
         <div className="rotate-[-90deg] origin-left text-[9px] tracking-[1.2em] text-[#C5A059]/30 font-light whitespace-nowrap uppercase">
-          48.8566° N, 2.3522° E — PARIS
+          Founder - Bhavya Sharma & Ayush Kumar
         </div>
         <div className="rotate-[-90deg] origin-left text-[9px] tracking-[1.2em] text-[#C5A059]/30 font-light whitespace-nowrap uppercase">
           ARCHIVE 00{currentSlide + 1} // FW25
@@ -84,11 +84,14 @@ export const Hero = () => {
 
         {/* God-level Buttons */}
         <div className="flex flex-col sm:flex-row items-center space-y-10 sm:space-y-0 sm:space-x-16">
+          <a href='/shop'>
           <button className="group relative px-14 py-6 border border-[#C5A059]/20 text-[#E8DED1] text-[10px] uppercase tracking-[0.5em] font-medium overflow-hidden transition-all duration-700 hover:border-[#C5A059]">
             <span className="relative z-10">Experience the Maison</span>
             <div className="absolute inset-0 bg-[#C5A059] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-[800ms] ease-out"></div>
             <div className="absolute inset-0 group-hover:bg-[#1A1614] mix-blend-difference transition-all duration-700"></div>
           </button>
+
+          </a>
           
           <button className="group flex flex-col items-center space-y-4">
              <div className="flex items-center space-x-4 text-[#D4C4B5] group-hover:text-white transition-all">

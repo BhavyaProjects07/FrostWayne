@@ -10,6 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ProductDetails = ({ product }) => {
 
+    const discountPercentage =
+    product.mrp > product.price
+        ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
+        : 0
+
+
     const productId = product.id;
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$';
 

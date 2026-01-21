@@ -4,8 +4,28 @@ import ProductCard from "@/components/ProductCard"
 import { MoveLeftIcon } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSelector } from "react-redux"
+import { useState } from "react"
+import FilterSidebar from "@/components/store/FilterSidebar"
 
- function ShopContent() {
+function ShopContent() {
+   
+  const [filters, setFilters] = useState({
+  categories: [],
+  minPrice: 0,
+  maxPrice: 100000,
+  minRating: 0,
+  minDiscount: 0,
+  })
+  
+  const getDiscount = (product) => {
+  const mrp = Number(product.mrp)
+  const price = Number(product.price)
+  if (!mrp || mrp <= price) return 0
+  return Math.round(((mrp - price) / mrp) * 100)
+}
+
+    
+
 
     // get query params ?search=abc
     const searchParams = useSearchParams()
@@ -14,11 +34,31 @@ import { useSelector } from "react-redux"
 
     const products = useSelector(state => state.product.list)
 
-    const filteredProducts = search
-        ? products.filter(product =>
-            product.name.toLowerCase().includes(search.toLowerCase())
-        )
-        : products;
+    const filteredProducts = products.filter(product => {
+  const discount = getDiscount(product)
+
+  if (
+    filters.categories.length &&
+    !filters.categories.includes(product.category)
+  ) return false
+
+  if (product.price > filters.maxPrice) return false
+
+  if (filters.minRating > 0) {
+    const avgRating =
+      product.rating.length
+        ? product.rating.reduce((a, r) => a + r.rating, 0) / product.rating.length
+        : 0
+    if (avgRating < filters.minRating) return false
+  }
+
+  if (filters.minDiscount > 0 && discount < filters.minDiscount) {
+    return false
+  }
+
+  return true
+})
+
 
     return (
         <div className="min-h-[60vh] mx-6">
@@ -61,11 +101,29 @@ import { useSelector } from "react-redux"
       all products
     </span>
   </span>
-</h1>
+                </h1>
 
-                <div className="grid grid-cols-2 sm:flex flex-wrap gap-6 xl:gap-12 mx-auto mb-32">
-                    {filteredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
+                <div className="flex gap-8 mt-8">
+  {/* Sidebar */}
+  <FilterSidebar filters={filters} setFilters={setFilters} />
+
+  {/* Products */}
+  <div className="flex-1">
+    {filteredProducts.length === 0 ? (
+      <div className="text-center text-slate-400 mt-20">
+        <h2 className="text-xl font-medium">No products found</h2>
+        <p className="text-sm mt-2">Try adjusting your filters</p>
+      </div>
+    ) : (
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredProducts.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    )}
+  </div>
                 </div>
+
             </div>
         </div>
     )

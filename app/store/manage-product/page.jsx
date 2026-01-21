@@ -3,16 +3,17 @@ import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import Image from "next/image"
 import Loading from "@/components/Loading"
-import { productDummyData } from "@/assets/assets"
+import { useRouter } from "next/navigation"
 import { useAuth, useUser } from "@clerk/nextjs"
 import axios from "axios"
+
 
 
 export default function StoreManageProducts() {
   const { getToken } = useAuth()
   const {user} = useUser()
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$"
-
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([])
 
@@ -104,6 +105,13 @@ export default function StoreManageProducts() {
                   <div className="w-9 h-5 bg-[#dcd2c8] rounded-full peer peer-checked:bg-[#6b5d52] transition-colors duration-200"></div>
                   <span className="dot absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-4"></span>
                 </label>
+
+                <button
+                  onClick={() => router.push(`/store/add-product?edit=${product.id}`)}
+                  className="text-xs px-3 py-1 border border-[#ede6dd] rounded hover:bg-[#f0e8e0]"
+                >
+                  Edit
+                </button>
               </td>
             </tr>
           ))}
