@@ -3,6 +3,8 @@ import authAdmin from "@/middlewares/authAdmin";
 import { getAuth } from "@clerk/nextjs/server";
 import { cacheTag } from "next/cache";
 import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+
 
 // add a new coupon
 

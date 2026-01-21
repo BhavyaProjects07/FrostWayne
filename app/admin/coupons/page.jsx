@@ -7,6 +7,7 @@ import { couponDummyData } from "@/assets/assets"
 import { useAuth } from "@clerk/nextjs"
 import axios from "axios"
 
+
 export default function AdminCoupons() {
   const [coupons, setCoupons] = useState([])
 
