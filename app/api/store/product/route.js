@@ -6,6 +6,12 @@ import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 export async function POST(request) { 
     try {
+
+
+        
+
+        
+
         const { userId } = getAuth(request)
         const storeId = await authSeller(userId)
 
@@ -17,6 +23,15 @@ export async function POST(request) {
         // get the data from the form
 
         const formData = await request.formData()
+
+
+        const hasSizes = formData.get("hasSizes") === "true"
+        const sizesRaw = formData.get("sizes")
+
+        let sizes = null
+        if (hasSizes && sizesRaw) {
+        sizes = JSON.parse(sizesRaw)
+        }
 
         const name = formData.get("name")
         const description = formData.get("description")
@@ -66,6 +81,8 @@ export async function POST(request) {
                 images: imagesUrl,
                 category,
                 storeId,
+                hasSizes,
+                sizes,
             }
         })
         return NextResponse.json({ message: "Product added successfully" }, { status: 201 })

@@ -47,6 +47,17 @@ export async function POST(request) {
             }
         }
 
+        for (const item of items) {
+            if (item.hasSize && !item.size) {
+                return NextResponse.json(
+                    { message: `Please select a size for ${item.name}` },
+                    { status: 400 }
+                )
+            }
+        }
+
+
+
 
         // group orders by storeId using a map
 
@@ -107,6 +118,8 @@ export async function POST(request) {
                         productId: item.id,
                         quantity: item.quantity,
                         price: item.price,
+                        hasSize: item.hasSize,
+                        size: item.size,
                     })),
                     },
                 },

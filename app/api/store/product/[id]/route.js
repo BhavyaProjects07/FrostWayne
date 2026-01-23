@@ -8,6 +8,11 @@ import { NextResponse } from "next/server"
 
 export async function GET(req, context) {
   try {
+
+    
+
+
+
     const { params } = context
     const { id } = await params // ✅ FIX HERE
 
@@ -54,6 +59,14 @@ export async function PUT(req, context) {
     }
 
     const formData = await req.formData()
+
+    const hasSizes = formData.get("hasSizes") === "true"
+    const sizesRaw = formData.get("sizes")
+
+    let sizes = null
+    if (hasSizes && sizesRaw) {
+      sizes = JSON.parse(sizesRaw)
+    }
 
     const name = formData.get("name")
     const description = formData.get("description")
@@ -109,6 +122,8 @@ export async function PUT(req, context) {
         mrp,
         category,
         images: imagesUrl,
+        hasSizes,
+        sizes
       },
     })
 

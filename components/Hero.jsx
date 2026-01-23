@@ -83,28 +83,78 @@ export const Hero = () => {
         </div>
 
         {/* God-level Buttons */}
-        <div className="flex flex-col sm:flex-row items-center space-y-10 sm:space-y-0 sm:space-x-16">
-          <a href='/shop'>
-          <button className="group relative px-14 py-6 border border-[#C5A059]/20 text-[#E8DED1] text-[10px] uppercase tracking-[0.5em] font-medium overflow-hidden transition-all duration-700 hover:border-[#C5A059]">
-            <span className="relative z-10">Experience the Maison</span>
-            <div className="absolute inset-0 bg-[#C5A059] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-[800ms] ease-out"></div>
-            <div className="absolute inset-0 group-hover:bg-[#1A1614] mix-blend-difference transition-all duration-700"></div>
-          </button>
+        <div
+  className="
+    grid grid-cols-2 gap-4
+    sm:flex sm:items-center sm:gap-16
+  "
+>
+  {["Mens", "Womens", "Footwear", "Accessories"].map((label) => (
+    <button
+      key={label}
+      className="group flex flex-col items-center gap-2 sm:gap-4"
+    >
+      <div
+        className="
+          w-full
+          flex items-center justify-between
+          text-[#D4C4B5]
+          px-3 py-2
+          sm:px-5 sm:py-3
+          border border-[#c5a059]/40
+          group-hover:text-white
+          transition-all
+        "
+      >
+        <span
+          className="
+            text-[9px] sm:text-[10px]
+            uppercase
+            tracking-[0.25em] sm:tracking-[0.4em]
+          "
+        >
+          {label}
+        </span>
 
-          </a>
-          
-          <button className="group flex flex-col items-center space-y-4">
-             <div className="flex items-center space-x-4 text-[#D4C4B5] group-hover:text-white transition-all">
-                <span className="text-[10px] uppercase tracking-[0.4em]">Lookbook</span>
-                <div className="w-10 h-10 rounded-full border border-[#C5A059]/20 flex items-center justify-center group-hover:bg-[#C5A059] group-hover:border-[#C5A059] transition-all duration-700">
-                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#C5A059] group-hover:text-[#1A1614] transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
-             </div>
-             <div className="w-0 h-[1px] bg-[#C5A059] group-hover:w-full transition-all duration-700"></div>
-          </button>
+        <div
+          className="
+            w-7 h-7 sm:w-10 sm:h-10
+            rounded-full
+            border border-[#C5A059]/20
+            flex items-center justify-center
+            group-hover:bg-[#C5A059]
+            group-hover:border-[#C5A059]
+            transition-all duration-700
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="
+              w-3 h-3
+              text-[#C5A059]
+              group-hover:text-[#1A1614]
+              transform group-hover:translate-x-0.5
+            "
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
         </div>
+      </div>
+
+      {/* underline */}
+      <div className="w-0 h-[1px] bg-[#C5A059] group-hover:w-full transition-all duration-700" />
+    </button>
+  ))}
+        </div>
+
       </div>
 
       {/* Bottom Interface HUD */}

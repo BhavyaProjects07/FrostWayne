@@ -35,6 +35,8 @@ model Product {
     storeId     String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+    hasSizes    Boolean  @default(false)
+    sizes       Json?    // { XS: true, S: false, ... }
 
     // Relations
     store      Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
@@ -83,6 +85,10 @@ model OrderItem {
     quantity  Int
     price     Float
 
+    // sizes
+    hasSize   Boolean @default(false)
+    size      String? // XS | S | M | L | XL | XXL
+
     // Relations
     order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
     product Product @relation(fields: [productId], references: [id])
@@ -128,16 +134,19 @@ model Address {
 }
 
 // Required for creating a Coupon: code, description, discount, forNewUser, isPublic, expiresAt
+
 model Coupon {
-    code        String   @id
-    description String
-    discount    Float
-    forNewUser  Boolean
-    forMember   Boolean  @default(false)
-    isPublic    Boolean
-    expiresAt   DateTime
-    createdAt   DateTime @default(now())
+  code              String   @id
+  description       String
+  discount          Int
+  minOrderValue     Int      @default(0) // 👈 ADD THIS LINE
+  forNewUser        Boolean
+  forMember         Boolean
+  isPublic          Boolean
+  expiresAt         DateTime
+  createdAt         DateTime @default(now())
 }
+
 
 // Required for creating a Store: userId, name, username, email, contact, logo, description, address (optional: , status, isActive)
 model Store {

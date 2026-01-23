@@ -12,6 +12,11 @@ export default function AdminCoupons() {
   const [coupons, setCoupons] = useState([])
 
   const { getToken } = useAuth()
+  const extractMinOrderValue = (text) => {
+  const match = text.match(/₹\s*(\d+)/i)
+  return match ? Number(match[1]) : 0
+}
+
 
   const [newCoupon, setNewCoupon] = useState({
     code: "",
@@ -38,22 +43,33 @@ export default function AdminCoupons() {
   }
 
   const handleAddCoupon = async (e) => {
-    e.preventDefault()
-    try {
-      const token = await getToken()
-      newCoupon.discount = Number(newCoupon.discount)
-      newCoupon.expiresAt = new Date(newCoupon.expiresAt)
-      const {data} = await axios.post('/api/admin/coupon', { coupon: newCoupon }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      toast.success(data.message)
-      await fetchCoupons()
-    } catch (error) {
-       toast.error(error?.response?.data?.error || error.message || "Failed to add coupon")
+  e.preventDefault()
+
+  try {
+    const token = await getToken()
+
+    const minOrderValue = extractMinOrderValue(newCoupon.description)
+
+    const payload = {
+      ...newCoupon,
+      discount: Number(newCoupon.discount),
+      minOrderValue,
+      expiresAt: new Date(newCoupon.expiresAt),
     }
+
+    const { data } = await axios.post(
+      "/api/admin/coupon",
+      { coupon: payload },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    toast.success(data.message)
+    await fetchCoupons()
+  } catch (error) {
+    toast.error(error?.response?.data?.error || error.message)
   }
+}
+
 
   const handleChange = (e) => {
     setNewCoupon({ ...newCoupon, [e.target.name]: e.target.value })
@@ -165,9 +181,27 @@ export default function AdminCoupons() {
             <p className="text-[#6b5d52]">For Member</p>
           </div>
         </div>
+        <div className="flex gap-2 mt-3">
+  <label className="relative inline-flex items-center cursor-pointer gap-3">
+    <input
+      type="checkbox"
+      className="sr-only peer"
+      name="isPublic"
+      checked={newCoupon.isPublic}
+      onChange={(e) =>
+        setNewCoupon({ ...newCoupon, isPublic: e.target.checked })
+      }
+    />
+    <div className="w-11 h-6 bg-[#d4c4b3] rounded-full peer peer-checked:bg-[#6b5d52] transition-colors duration-200"></div>
+    <span className="dot absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
+  </label>
+  <p className="text-[#6b5d52]">Public Coupon (Show in Banner)</p>
+        </div>
         <button className="mt-4 p-2 px-10 rounded bg-[#6b5d52] text-white active:scale-95 transition hover:bg-[#5a4d44]">
           Add Coupon
         </button>
+
+
       </form>
 
       {/* List Coupons */}
