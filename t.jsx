@@ -398,3 +398,6 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+right now any SingleUser can use the coupon multiple times , I want a logic where the user can use the coupon only once , means after 1 order the coupon must expire for that user , I am sharing you my api/coupons/route.js , api/admin/coupon/route.js
