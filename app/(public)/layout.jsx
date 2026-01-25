@@ -2,6 +2,7 @@
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Preloader from "@/components/Preloader"
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/lib/features/product/productSlice";
 import { useEffect } from "react";
@@ -43,8 +44,10 @@ export default function PublicLayout({ children }) {
 
     return (
         <>
+            <Preloader
+            />
             <Navbar />
-            <Banner />
+            
             {children}
             <Footer />
         </>
