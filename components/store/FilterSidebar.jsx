@@ -1,17 +1,14 @@
 'use client'
 
 const categories = [
-  "Electronics",
-  "Clothing",
-  "Home & Kitchen",
-  "Beauty & Health",
-  "Toys & Games",
-  "Sports & Outdoors",
-  "Books & Media",
-  "Food & Drink",
-  "Hobbies & Crafts",
-  "Others",
-]
+    "Electronics",
+    "Mens-Clothing",
+    "Womens-Clothing",
+    "Footwear",
+    "Accessories", 
+    "Beauty & Health",
+   
+  ]
 
 export default function FilterSidebar({ filters, setFilters }) {
 
@@ -58,7 +55,7 @@ export default function FilterSidebar({ filters, setFilters }) {
         <input
           type="range"
           min={100}
-          max={100000}
+          max={5000}
           step={100}
           value={filters.maxPrice}
           onChange={(e) =>
@@ -121,7 +118,7 @@ export default function FilterSidebar({ filters, setFilters }) {
         onClick={() =>
           setFilters({
             categories: [],
-            maxPrice: 100000,
+            maxPrice: 5000,
             minRating: 0,
             minDiscount: 0,
           })

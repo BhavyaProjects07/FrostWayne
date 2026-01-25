@@ -6,7 +6,7 @@ const Preloader = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(false), 3500);
+    const timer = setTimeout(() => setIsVisible(false), 1400);
     return () => clearTimeout(timer);
   }, []);
 
