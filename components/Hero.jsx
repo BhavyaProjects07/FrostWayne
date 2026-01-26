@@ -1,10 +1,14 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { SLIDES } from '../constants.js';
+import { useRouter } from "next/navigation";
+
 
 export const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const router = useRouter();
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -89,11 +93,19 @@ export const Hero = () => {
     sm:flex sm:items-center sm:gap-16
   "
 >
-  {["Mens", "Womens", "Footwear", "Accessories"].map((label) => (
-    <button
-      key={label}
-      className="group flex flex-col items-center gap-2 sm:gap-4"
-    >
+  {[
+  { label: "Men", query: "men" },
+  { label: "Women", query: "women" },
+  { label: "Footwear", query: "footwear" },
+  { label: "Accessories", query: "accessories" },
+].map(({ label, query }) => (
+  <button
+    key={label}
+    onClick={() => router.push(`/shop?category=${query}`)}
+
+    className="group flex flex-col items-center gap-2 sm:gap-4"
+  >
+
       <div
         className="
           w-full
@@ -108,7 +120,7 @@ export const Hero = () => {
       >
         <span
           className="
-            text-[9px] sm:text-[10px]
+            text-[9px] sm:text-[10px] 
             uppercase
             tracking-[0.25em] sm:tracking-[0.4em]
           "

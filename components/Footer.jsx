@@ -130,22 +130,22 @@ const Footer = () => {
     {
       title: "CONTACT",
       links: [
-        { text: "+1-212-456-7890", path: "/", icon: PhoneIcon },
-        { text: "contact@example.com", path: "/", icon: MailIcon },
-        { text: "794 Francisco, 94102", path: "/", icon: MapPinIcon },
+        { text: "+91 8445695011 & +91 9006848596", path: "/", icon: PhoneIcon },
+        { text: "frostwayneteam@gmail.com", path: "/", icon: MailIcon },
+        { text: "South vanasthali Ballupur Dehradun 248001 , India ", path: "/", icon: MapPinIcon },
       ],
     },
   ]
 
   const socialIcons = [
-    { icon: FacebookIcon, link: "https://www.facebook.com" },
-    { icon: InstagramIcon, link: "https://www.instagram.com" },
-    { icon: TwitterIcon, link: "https://twitter.com" },
-    { icon: LinkedinIcon, link: "https://www.linkedin.com" },
+    { icon: FacebookIcon, link: "https://www.facebook.com/share/1FG3Z91kyv/" },
+    { icon: InstagramIcon, link: "https://www.instagram.com/frostwaynecollaction?igsh=amF6ejRnNG5pdThs" },
+    
+    
   ]
 
   return (
-    <footer className="bg-gradient-to-b from-[#f9f7f4] via-[#f3ede8] to-[#ede6dd]">
+    <footer className="bg-gradient-to-b from-[#211d1b] via-[#211d1b] to-[#211d1b]">
       <div className="max-w-7xl mx-auto">
         {/* Top Section - Large Logo & Description */}
         <div className="px-6 md:px-12 pt-20 pb-16 border-b border-[#c9bfb3]">
@@ -153,7 +153,7 @@ const Footer = () => {
             <div>
               <Link href="/" className="inline-block mb-10">
                 <Image
-                  src={assets.logo || "/placeholder.svg"}
+                  src={assets.FrostWayne || "/placeholder.svg"}
                   alt="Frost & Wayne"
                   width={200}
                   height={60}

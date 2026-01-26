@@ -58,7 +58,7 @@ const About = () => {
           <div className="group space-y-10">
             <div className="relative aspect-[3/4] bg-[#2A2420] overflow-hidden border border-[#C5A059]/10 group-hover:border-[#C5A059]/40 transition-all duration-1000">
               {/* Image Placeholder */}
-              <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center grayscale opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-[2s] cubic-bezier(0.2, 1, 0.3, 1)"></div>
+              <div className="absolute inset-0 z-0 bg-[url('https://ik.imagekit.io/g5r49watp/Bhavya.jpeg')] bg-cover bg-center  group-hover:opacity-60 group-hover:scale-110 transition-all duration-[2s] cubic-bezier(0.2, 1, 0.3, 1)"></div>
               
               {/* Architectural Overlays */}
               <div className="absolute inset-0 z-10 p-8 flex flex-col justify-between pointer-events-none">
@@ -94,7 +94,7 @@ const About = () => {
           <div className="group space-y-10 md:mt-32">
             <div className="relative aspect-[3/4] bg-[#2A2420] overflow-hidden border border-[#C5A059]/10 group-hover:border-[#C5A059]/40 transition-all duration-1000">
               {/* Image Placeholder */}
-              <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center grayscale opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-[2s] cubic-bezier(0.2, 1, 0.3, 1)"></div>
+              <div className="absolute inset-0 z-0 bg-[url('https://ik.imagekit.io/g5r49watp/WhatsApp%20Image%202026-01-26%20at%2023.18.19.jpeg')] bg-cover bg-center  group-hover:opacity-60 group-hover:scale-110 transition-all duration-[2s] cubic-bezier(0.2, 1, 0.3, 1)"></div>
               
               {/* Architectural Overlays */}
               <div className="absolute inset-0 z-10 p-8 flex flex-col justify-between pointer-events-none">

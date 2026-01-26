@@ -47,7 +47,8 @@ export default function PublicLayout({ children }) {
             <Preloader
             />
             <Navbar />
-            
+        
+        
             {children}
             <Footer />
         </>

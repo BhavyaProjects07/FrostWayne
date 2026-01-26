@@ -1,16 +1,23 @@
 'use client'
 
+import { useEffect } from "react"
+import { useDispatch , useSelector } from "react-redux"
+import { fetchProducts } from "@/lib/features/product/productSlice"
+
 import { Suspense, useState } from "react"
 import ProductCard from "@/components/ProductCard"
 import { MoveLeftIcon } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useSelector } from "react-redux"
+
 import FilterSidebar from "@/components/store/FilterSidebar"
 
 function ShopContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const search = searchParams.get("search")
+  const search = searchParams.get("search") || ""
+  const category = searchParams.get("category") || "";
+
+  const dispatch = useDispatch()
 
   const products = useSelector(state => state.product.list)
 
@@ -59,8 +66,21 @@ function ShopContent() {
     return true
   })
 
+  useEffect(() => {
+  dispatch(fetchProducts({ search, category }))
+  setFilters({
+    categories: [],
+    minPrice: 0,
+    maxPrice: 100000,
+    minRating: 0,
+    minDiscount: 0,
+  })
+}, [search, category])
+
+
+
   return (
-    <div className="min-h-[60vh] mx-6">
+    <div className="min-h-[60vh] mx-6 pt-20">
       <div className="max-w-7xl mx-auto">
 
         {/* ---------- HEADING ---------- */}

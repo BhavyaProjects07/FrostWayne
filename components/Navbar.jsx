@@ -11,11 +11,12 @@ import { PackageIcon, Store } from "lucide-react";
 import axios from "axios";
 
 
+
 const NavLink = ({ href, children, delay = 0 }) => {
     return (
         <a
             href={href}
-            className="relative group text-[12px] font-bold tracking-[0.4em] uppercase text-[#4A372880] transition-all duration-500"
+            className="relative group text-[12px] font-bold tracking-[0.4em] uppercase text-[#c4a484] transition-all duration-500"
             style={{
                 animation: `fadeInUp 0.6s ease-out ${delay}s forwards`,
                 opacity: 0,
@@ -87,7 +88,8 @@ const Navbar = () => {
 
     const handleSearch = (e) => {
         e.preventDefault()
-        router.push(`/shop?search=${search}`)
+        if (!search.trim()) return
+        router.push(`/shop?search=${encodeURIComponent(search.trim())}`)
     }
 
     return (
@@ -117,7 +119,7 @@ const Navbar = () => {
 
                 @keyframes pulse-glow {
                     0%, 100% {
-                        box-shadow: 0 0 0 0 rgba(196, 164, 132, 0.4);
+                        box-shadow: 0 0 0 0 rgb(255, 255, 255);
                     }
                     50% {
                         box-shadow: 0 0 0 8px rgba(196, 164, 132, 0);
@@ -163,7 +165,9 @@ const Navbar = () => {
                 }
             `}</style>
 
-            <nav className="relative bg-[#F7F3F0]/40 shadow-sm shadow-gray-300/50 backdrop-blur-sm transition-all duration-500 sticky top-0 z-1000">
+            
+            <nav className=" fixed top-0 left-0 w-full z-[100] bg-[#111111]/90 pointer-events-auto ">
+
                 <div className="mx-6">
                     <div className="flex items-center justify-between max-w-7xl mx-auto py-4 transition-all duration-500">
 
@@ -171,12 +175,12 @@ const Navbar = () => {
                         href="/"
                         className="nav-logo relative text-4xl font-semibold text-slate-700 hover:scale-105 transition-transform duration-300 hidden sm:block"
                         >
-                        <Image src={assets.logo || "/placeholder.svg"} alt="Logo" className="w-29" />
+                        <Image src={assets.FrostWayne || "/placeholder.svg"} alt="Logo" className="w-29" />
                         </Link>
 
 
                         {/* Desktop Menu */}
-                        <div className="hidden lg:flex items-center space-x-12">
+                        <div className="hidden lg:flex items-center space-x-12 ">
                             <NavLink href="/" delay={0}>Home</NavLink>
                             <NavLink href="/shop" delay={0.1}>Shop</NavLink>
                             <NavLink href="/about" delay={0.2}>About</NavLink>
@@ -184,11 +188,11 @@ const Navbar = () => {
 
                             <form 
                                 onSubmit={handleSearch} 
-                                className="search-input-wrapper hidden xl:flex items-center w-xs text-sm gap-2 bg-[#d8cbc480] px-4 py-3 rounded-full hover:bg-[#d8cbc4a0] transition-all duration-300"
+                                className="search-input-wrapper hidden xl:flex items-center w-xs text-sm gap-2 bg-[#c4a484] px-4 py-3 rounded-full hover:bg-[#e4b77b] transition-all duration-300"
                             >
-                                <Search size={18} className="text-[#4A372880] transition-transform duration-300 group-hover:rotate-90" />
+                                <Search size={18} className="text-[#000000] transition-transform duration-300 group-hover:rotate-90" />
                                 <input 
-                                    className="w-full bg-transparent outline-none placeholder-[#4A372880] transition-colors duration-300" 
+                                    className="w-full bg-transparent outline-none placeholder-[#000000] transition-colors duration-300" 
                                     type="text" 
                                     placeholder="Search products" 
                                     value={search} 
@@ -199,7 +203,7 @@ const Navbar = () => {
 
                             <Link 
                                 href="/cart" 
-                                className="relative flex items-center gap-2 text-[#4a3728] group transition-all duration-300 hover:scale-110"
+                                className="relative flex items-center gap-2 text-[#e4b77d] group transition-all duration-300 hover:scale-110"
                                 style={{
                                     animation: `fadeInUp 0.6s ease-out 0.4s forwards`,
                                     opacity: 0,
@@ -216,7 +220,7 @@ const Navbar = () => {
                                 !user ? (
                                     <button 
                                         onClick={openSignIn} 
-                                        className="nav-button px-8 py-2 bg-[#C4A484] text-white rounded-full relative transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
+                                        className="nav-button px-8 py-2 bg-[#C4A484] text-black rounded-full relative transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
                                         style={{
                                             animation: `fadeInUp 0.6s ease-out 0.5s forwards`,
                                             opacity: 0,
@@ -280,7 +284,7 @@ const Navbar = () => {
                         {/* Mobile Logo (LEFT) */}
                         <Link href="/" className="flex items-center">
                             <Image
-                            src={assets.logo}
+                            src={assets.FrostWayne}
                             alt="FrostWayne"
                             width={70}
                             height={60}
@@ -293,7 +297,7 @@ const Navbar = () => {
                             {/* Search Icon */}
                             <button
                             onClick={() => setMobileSearchOpen((prev) => !prev)}
-                            className="p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            className="p-2 rounded-full bg-[#c4a484] text-[#111111] hover:bg-[#d8cbc4a0] transition"
                             >
                             <Search size={16} />
                             </button>
@@ -301,7 +305,7 @@ const Navbar = () => {
                             {/* Shop Icon */}
                             <button
                             onClick={() => router.push('/shop')}
-                            className="p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            className="p-2 rounded-full bg-[#c4a484] text-[#111111] hover:bg-[#d8cbc4a0] transition"
                             >
                             <Store size={16} />
                             </button>
@@ -309,7 +313,7 @@ const Navbar = () => {
                             {/* Cart Icon */}
                             <button
                             onClick={() => router.push('/cart')}
-                            className="relative p-2 rounded-full bg-[#d8cbc480] text-[#4A372880] hover:bg-[#d8cbc4a0] transition"
+                            className="relative p-2 rounded-full bg-[#c4a484] text-[#111111] hover:bg-[#d8cbc4a0] transition"
                             >
                             <ShoppingCart size={16} />
                             {cartCount > 0 && (
@@ -359,7 +363,7 @@ const Navbar = () => {
                             ) : (
                                 <button
                                 onClick={openSignIn}
-                                className="nav-button px-4 py-1.5 bg-[#C4A484] text-sm text-white rounded-full transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
+                                className="nav-button px-4 py-1.5 bg-[#C4A484] text-sm text-black rounded-full transition-all duration-500 hover:shadow-lg hover:shadow-[#C4A48466]"
                                 >
                                 Login
                                 </button>
