@@ -243,7 +243,13 @@ const Navbar = () => {
                                                 labelIcon={<PackageIcon size={16} />}
                                                 label="My Orders"
                                                 onClick={() => router.push("/orders")}
-                                                />
+                                                    />
+                                                    
+                                                    <UserButton.Action
+                                        labelIcon={<PackageIcon size={16} />}
+                                        label="About Us"
+                                        onClick={() => router.push("/about")}
+                                        />
 
                                                 {isSeller && (
                                                 <UserButton.Action
@@ -339,6 +345,12 @@ const Navbar = () => {
                                         labelIcon={<PackageIcon size={16} />}
                                         label="My Orders"
                                         onClick={() => router.push("/orders")}
+                                                />
+                                                
+                                                <UserButton.Action
+                                        labelIcon={<PackageIcon size={16} />}
+                                        label="About Us"
+                                        onClick={() => router.push("/about")}
                                         />
 
                                         {isSeller && (
@@ -375,14 +387,17 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                            {/* ✅ ADD MOBILE SEARCH INPUT RIGHT HERE */}
-{mobileSearchOpen && (
+                            {mobileSearchOpen && (
   <form
-    onSubmit={handleSearch}
+    onSubmit={(e) => {
+      handleSearch(e)
+      setMobileSearchOpen(false) // ✅ close after search
+    }}
     className="sm:hidden px-6 pb-3 animate-[fadeInUp_0.4s_ease-out]"
   >
     <div className="flex items-center gap-2 bg-[#d8cbc480] px-4 py-3 rounded-full">
       <Search size={16} className="text-[#4A372880]" />
+
       <input
         type="text"
         value={search}
@@ -390,11 +405,20 @@ const Navbar = () => {
         placeholder="Search products"
         className="w-full bg-transparent outline-none text-sm placeholder-[#4A372880]"
         autoFocus
-        required
       />
+
+      {/* ❌ Close button */}
+      <button
+        type="button"
+        onClick={() => setMobileSearchOpen(false)}
+        className="text-[#4A3728] text-lg font-bold px-1"
+      >
+        ✕
+      </button>
     </div>
   </form>
 )}
+
                 <hr className="border-gray-300 transition-all duration-500" />
             </nav>
         </>

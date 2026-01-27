@@ -94,10 +94,10 @@ export const Hero = () => {
   "
 >
   {[
-  { label: "Men", query: "men" },
-  { label: "Women", query: "women" },
-  { label: "Footwear", query: "footwear" },
-  { label: "Accessories", query: "accessories" },
+  { label: "Men", query: "Mens-Clothing" },
+  { label: "Women", query: "Womens-Clothing" },
+  { label: "Footwear", query: "Footwear" },
+  { label: "Accessories", query: "Accessories" },
 ].map(({ label, query }) => (
   <button
     key={label}

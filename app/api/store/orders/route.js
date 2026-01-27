@@ -112,6 +112,10 @@ export async function POST(request) {
           </p>
         `,
       });
+
+      
+
+
     } catch (emailError) {
       console.error("Order status email failed:", emailError.message);
       // intentionally NOT throwing — order update must succeed

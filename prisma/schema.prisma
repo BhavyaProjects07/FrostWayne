@@ -46,9 +46,10 @@ model Product {
 
 enum OrderStatus {
     ORDER_PLACED
-    PROCESSING
     SHIPPED
+    OUT_OF_DELIVERY
     DELIVERED
+    CANCELLED
 }
 
 enum PaymentMethod {

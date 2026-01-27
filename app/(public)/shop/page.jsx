@@ -12,6 +12,15 @@ import { useRouter, useSearchParams } from "next/navigation"
 import FilterSidebar from "@/components/store/FilterSidebar"
 
 function ShopContent() {
+
+  const formatCategory = (category) => {
+  if (!category) return "";
+
+  return category
+    .replace("-", " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+};
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const search = searchParams.get("search") || ""
@@ -75,12 +84,21 @@ function ShopContent() {
     minRating: 0,
     minDiscount: 0,
   })
-}, [search, category])
+  }, [search, category])
+  
+  let heading = "All Products";
+
+if (search) {
+  heading = `Search results for "${search}"`;
+} else if (category) {
+  heading = formatCategory(category);
+}
+
 
 
 
   return (
-    <div className="min-h-[60vh] mx-6 pt-20">
+    <div className="min-h-[60vh] mx-6 pt-23 pb-25">
       <div className="max-w-7xl mx-auto">
 
         {/* ---------- HEADING ---------- */}
@@ -96,8 +114,9 @@ function ShopContent() {
         >
           {search && <MoveLeftIcon size={20} className="text-slate-500" />}
           <span className="italic text-[#C5A059]/80 block mt-1">
-            all products
+            {heading}
           </span>
+
         </h1>
 
         {/* ---------- MOBILE FILTER BUTTON ---------- */}

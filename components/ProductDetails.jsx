@@ -15,18 +15,18 @@ import Counter from "./Counter"
 import { useDispatch, useSelector } from "react-redux"
 import toast from "react-hot-toast"
 
-const SIZES = ["XS", "S", "M", "L", "XL", "XXL"]
-const FootSizes = ["UK-5", "UK-6", "UK-7", "UK-8", "UK-9", "UK-10", "UK-11"]
 
 const ProductDetails = ({ product }) => {
+  const SIZES = ["XS", "S", "M", "L", "XL", "XXL"]
+  const FootSizes = ["UK-5", "UK-6", "UK-7", "UK-8", "UK-9", "UK-10", "UK-11"]
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$"
     const productId = product.id
 
-    const isFootwear = product?.sizes
-  ? Object.keys(product.sizes).some(size => size.startsWith("UK-"))
-  : false
+    const isFootwear =
+    product?.category?.toLowerCase().includes("footwear")
 
-    const sizeList = isFootwear ? FootSizes : SIZES
+  const sizeList = isFootwear ? FootSizes : SIZES
+
 
 
   const cart = useSelector(state => state.cart.cartItems)
@@ -60,7 +60,7 @@ const ProductDetails = ({ product }) => {
   }
 
   return (
-    <div className="flex max-lg:flex-col gap-12">
+    <div className="flex max-lg:flex-col gap-12 pt-25">
       {/* IMAGES */}
       <div className="flex max-sm:flex-col-reverse gap-3">
         <div className="flex sm:flex-col gap-3">

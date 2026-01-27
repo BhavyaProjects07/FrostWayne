@@ -119,13 +119,16 @@ export default function StoreOrders() {
                     <select
                       value={order.status}
                       onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                      className="border border-[#ede6dd] rounded-md text-sm focus:ring focus:ring-[#dcd2c8] bg-white text-[#6b5d52]"
+                      disabled={order.status === "CANCELLED"}
+                      className="border rounded-md text-sm bg-white"
                     >
-                      <option value="ORDER_PLACED">ORDER_PLACED</option>
-                      <option value="PROCESSING">PROCESSING</option>
+                      <option value="ORDER_PLACED">ORDER PLACED</option>
                       <option value="SHIPPED">SHIPPED</option>
+                      <option value="OUT_OF_DELIVERY">OUT FOR DELIVERY</option>
                       <option value="DELIVERED">DELIVERED</option>
+                      <option value="CANCELLED">CANCELLED</option>
                     </select>
+
                   </td>
                   <td className="px-4 py-3 text-[#9a8978]">{new Date(order.createdAt).toLocaleString()}</td>
                 </tr>

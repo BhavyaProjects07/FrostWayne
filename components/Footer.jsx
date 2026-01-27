@@ -112,17 +112,17 @@ const Footer = () => {
     {
       title: "PRODUCTS",
       links: [
-        { text: "Earphones", path: "/", icon: null },
-        { text: "Headphones", path: "/", icon: null },
-        { text: "Smartphones", path: "/", icon: null },
-        { text: "Laptops", path: "/", icon: null },
+        { text: "mens", path: "/", icon: null },
+        { text: "womens", path: "/", icon: null },
+        { text: "accessories", path: "/", icon: null },
+        { text: "footwear", path: "/", icon: null },
       ],
     },
     {
       title: "WEBSITE",
       links: [
         { text: "Home", path: "/", icon: null },
-        { text: "Privacy Policy", path: "/", icon: null },
+        { text: "Privacy Policy", path: "/privacy-policy", icon: null },
         { text: "Become Plus Member", path: "/pricing", icon: null },
         
       ],
@@ -161,8 +161,9 @@ const Footer = () => {
                 />
               </Link>
               <p className="max-w-md text-base text-[#6b5d52] leading-relaxed font-light">
-                Welcome to gocart, your ultimate destination for the latest and smartest gadgets. From smartphones and
-                smartwatches to essential accessories, we bring you the best in innovation — all in one place.
+                Frost Wayne is a modern luxury atelier offering carefully curated fashion and lifestyle products designed with precision, quality, and authenticity at the core. Built for customers who value craftsmanship over compromise, Frost Wayne combines timeless aesthetics with transparent, protocol-driven commerce.
+
+                Every order is handled through a structured quality assurance process, ensuring trust, fairness, and accountability for both customers and creators. From secure transactions to verified fulfillment and inspection-based policies, Frost Wayne prioritizes clarity at every stage of the shopping experience.
               </p>
 
               <div className="flex items-center gap-4 mt-8">
