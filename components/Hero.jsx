@@ -101,8 +101,13 @@ export const Hero = () => {
 ].map(({ label, query }) => (
   <button
     key={label}
-    onClick={() => router.push(`/shop?category=${query}`)}
-
+    onClick={() => router.push(`/shop?category=${query}`
+      
+    )
+      
+    }
+    
+    
     className="group flex flex-col items-center gap-2 sm:gap-4"
   >
 

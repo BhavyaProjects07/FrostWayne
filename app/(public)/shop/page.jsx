@@ -87,6 +87,7 @@ function ShopContent() {
   }, [search, category])
   
   let heading = "All Products";
+  
 
 if (search) {
   heading = `Search results for "${search}"`;

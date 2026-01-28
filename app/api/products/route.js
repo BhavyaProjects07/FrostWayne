@@ -43,10 +43,15 @@ export async function GET(request) {
     }
 
     // ---------- STEP 3: final category ----------
-    const category =
-      rawCategory
-        ? CATEGORY_MAP[rawCategory.toLowerCase()]
-        : inferredCategory;
+      let category = null;
+
+      if (rawCategory) {
+        const normalized = rawCategory.toLowerCase();
+
+        category =
+          CATEGORY_MAP[normalized] || rawCategory; // ✅ fallback to DB value
+      }
+
 
     // ---------- STEP 4: remaining keywords ----------
     const searchKeywords = words.filter(

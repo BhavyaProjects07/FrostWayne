@@ -34,7 +34,6 @@ export default function StoreAddProduct() {
   /* ---------------- PRODUCT STATE ---------------- */
   const categories = [
     "Electronics",
-    "Clothing",
     "Mens-Clothing",
     "Womens-Clothing",
     "Footwear",
