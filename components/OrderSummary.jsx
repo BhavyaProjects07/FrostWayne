@@ -214,7 +214,7 @@ const OrderSummary = ({ totalPrice, items }) => {
           </div>
           <div className="text-right font-medium">
             <p>{currency}{totalPrice.toLocaleString()}</p>
-            <p>Free</p>
+            <p>₹ 5</p>
             {coupon && (
               <p>
                 -{currency}
@@ -272,13 +272,13 @@ const OrderSummary = ({ totalPrice, items }) => {
         <p className="font-medium">
           {currency}
           {coupon
-            ? (totalPrice - (coupon.discount / 100) * totalPrice).toFixed(2)
-            : totalPrice.toLocaleString()}
+            ? (totalPrice - (coupon.discount / 100) * totalPrice + 5).toFixed(2)
+            : (totalPrice + 5).toLocaleString()}
         </p>
       </div>
 
       <button
-        onClick={(e) =>
+        onClick={(e) => 
           toast.promise(handlePlaceOrder(e), {
             loading: 'Placing order...',
           })
@@ -287,6 +287,10 @@ const OrderSummary = ({ totalPrice, items }) => {
       >
         Place Order
       </button>
+
+      <p className="text-slate-400 text-xs my-4">By tapping on Place Order you accept our Privacy Policy</p>
+
+
 
       {showAddressModal && (
         <AddressModal setShowAddressModal={setShowAddressModal} />

@@ -146,7 +146,7 @@ const PrivacyPolicy = () => {
                 <h3 className="font-serif text-4xl">Eligible Claims</h3>
               </div>
               <ul className="space-y-8">
-                {['Product received is damaged', 'Product is defective', 'Wrong item delivered'].map((item, i) => (
+                {['Product received is damaged', 'Product is defective', 'Wrong item delivered','Size, color, or style preference'].map((item, i) => (
                   <li key={i} className="flex items-center space-x-6 text-[12px] tracking-[0.2em] uppercase text-[#D4C4B5]">
                     <ShieldCheck className="text-green-600/60" size={20} />
                     <span>{item}</span>
@@ -163,7 +163,7 @@ const PrivacyPolicy = () => {
               <ul className="space-y-4">
                 {[
                   'Change of mind',
-                  'Size, color, or style preference',
+                  
                   'Minor variations (lighting/display)',
                   'Used, washed, or altered products',
                   'Missing original tags or packaging',
@@ -229,8 +229,8 @@ const PrivacyPolicy = () => {
               <p className="text-[11px] tracking-[0.5em] uppercase text-[#C5A059] font-bold">Contact Support Protocol</p>
               <p className="text-[10px] tracking-widest uppercase text-[#D4C4B5]/40">Ensure all unboxing media and Order ID are attached.</p>
             </div>
-            <a href="mailto:support@frostwayne.shop" className="block font-serif text-4xl md:text-6xl text-[#E8DED1] hover:text-[#C5A059] transition-all duration-700 underline underline-offset-[16px] decoration-[1px] decoration-[#C5A059]/30">
-              support@frostwayne.shop
+            <a href="mailto:frostwayneteam@gmail.com" className="block font-serif text-4xl md:text-6xl text-[#E8DED1] hover:text-[#C5A059] transition-all duration-700 underline underline-offset-[16px] decoration-[1px] decoration-[#C5A059]/30">
+              frostwayneteam@gmail.com
             </a>
           </div>
 

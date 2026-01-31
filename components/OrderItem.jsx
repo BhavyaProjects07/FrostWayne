@@ -8,10 +8,13 @@ import RatingModal from "./RatingModal"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { useAuth } from "@clerk/nextjs"
+import { useRouter } from "next/navigation"
+
 
 const OrderItem = ({ order, onCancelSuccess }) => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$"
   const { ratings } = useSelector(state => state.rating)
+  const router = useRouter()
 
   const [ratingModal, setRatingModal] = useState(null)
   const [cancelLoading, setCancelLoading] = useState(false)
@@ -138,6 +141,13 @@ const OrderItem = ({ order, onCancelSuccess }) => {
               </div>
             ))}
           </div>
+          <button
+  onClick={() => router.push(`/orders/${order.id}`)}
+  className="block text-xs text-blue-600 hover:underline"
+>
+  View Details
+</button>
+
         </td>
 
         <td className="text-center">
@@ -171,29 +181,69 @@ const OrderItem = ({ order, onCancelSuccess }) => {
       </tr>
 
       {/* ================= MOBILE ================= */}
-      <tr className="md:hidden">
-        <td colSpan={4} className="space-y-2 py-4">
-          <p className="font-medium">{order.address.name}</p>
-          <p className="text-sm text-slate-500">{order.address.street}</p>
-          <p className="text-sm text-slate-500">{order.address.phone}</p>
+      {/* ================= MOBILE ================= */}
+      {/* ================= MOBILE ================= */}
+<tr className="md:hidden">
+  <td colSpan={4} className="py-4">
+    <div className="bg-white rounded-xl shadow p-4 space-y-4">
+      {order.orderItems.map((item, index) => (
+        <div key={index} className="flex gap-4">
+          <div className="w-20 h-20 bg-slate-100 rounded-md flex items-center justify-center">
+            <Image
+              src={item.product.images[0]}
+              alt={item.product.name}
+              width={80}
+              height={80}
+              className="object-contain"
+            />
+          </div>
 
-          <span
-            className={`inline-block px-4 py-1 rounded text-sm capitalize ${statusBadge()}`}
-          >
-            {order.status.replace(/_/g, " ").toLowerCase()}
-          </span>
+          <div className="flex-1 space-y-1">
+            <p className="font-semibold text-sm">
+              {item.product.name}
+            </p>
 
-          {canCancel && (
-            <button
-              onClick={handleCancelOrder}
-              disabled={cancelLoading}
-              className="block text-sm text-red-600"
+            <p className="text-xs text-slate-500">
+              {currency}{item.price} × {item.quantity}
+            </p>
+
+            <span
+              className={`inline-block mt-1 px-3 py-1 rounded-full text-xs capitalize ${statusBadge()}`}
             >
-              {cancelLoading ? "Cancelling..." : "Cancel Order"}
-            </button>
-          )}
-        </td>
-      </tr>
+              {order.status.replace(/_/g, " ").toLowerCase()}
+            </span>
+          </div>
+        </div>
+      ))}
+
+      <div className="flex justify-between text-sm pt-2">
+        <span>Total</span>
+        <span className="font-semibold">
+          {currency}{order.total}
+        </span>
+      </div>
+
+      <button
+        onClick={() => router.push(`/orders/${order.id}`)}
+        className="w-full border border-black py-2 rounded text-sm"
+      >
+        View Details
+      </button>
+
+      {canCancel && (
+        <button
+          onClick={handleCancelOrder}
+          disabled={cancelLoading}
+          className="w-full text-sm text-red-600"
+        >
+          {cancelLoading ? "Cancelling..." : "Cancel Order"}
+        </button>
+      )}
+    </div>
+  </td>
+</tr>
+
+
 
       {/* Rating Modal */}
       {ratingModal && (
